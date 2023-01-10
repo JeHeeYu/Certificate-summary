@@ -57,3 +57,41 @@
 <br>
 
 ### 애자일 모형(Agile Model)
+애자일 모형이란 '민첩함' 또는 '기민함' 이라는 뜻으로, 고객의 요구 사항 변화에 유연하게 대응할 수 있도록 일정한 주기를 반복하여 개발하는 것을 말한다.
+
+<ul>
+<li><b>좋은 것을 빠르고 낭비 없게 만들기 위해 고객과의 소통에 초점</b>을 맞춘 방법론을 통칭</li>
+<li>기업 활동 전반에 걸쳐 사용됨</li>
+</ul>
+
+#### 애자일 모형을 기반으로 하는 소프트웨어 개발 모형
+<ul>
+<li>스크럼(Scrum)</li>
+<li>XP(eXtreme Programming)</li>
+<li>칸반(Kanban)</li>
+<li>Lean</li>
+<li>크리스탈(Crystal)</li>
+<li>ASD(Adaptive Software Development)</li>
+<li>기능 중심 개발(FDD: Feature Driven Decelopment)</li>
+<li>DSDM(Dynamic System Development Mehod)</li>
+<li>DAD(Disciplined Agile Delivery)</li>
+</ul>
+
+#### 애자일 개발 4가지 핵심 가치
+<ol>
+<li>프로세스와 도구보다는 <b>개인과 상호작용</b>에 더 가치를 둠</li>
+<li>방대한 문석보다는 <b>실행되는 소프트웨어</b>에 더 가치를 둠</li>
+<li>계약 협상보다는 <b>고객과 협업</b>에 더 가치를 둠</li>
+<li>계획을 따르기 보다 <b>변화에 반응</b>하는 것에 더 가치를 둠</li>
+</ol>
+
+## 스크럼(Scrum)
+스크럼이란 럭비에서 반칙으로 경기가 중단된 경우 양 팀의 선수들이 럭비공을 가운데 두고 상대팀을 밀치기 위해 서로 대치해 있는 대형을 말한다.
+<br>
+스크럼은 이처럼 <b>팀이 중심이 되어 개발의 효율성을 높인다는 의미가 내포된 용어</b>이다.
+
+<ul>
+<li>팀원 스스로가 스크럼 팀을 구성(Self-Organizing)해야 함</li>
+<li>개발 작업에 관한 모든 것을 스스로 해결(Cross-Functionnal)할 수 있어야 함</li>
+<li>제품 책임자, 스크럼 마스터, 개발팀으로 구성</li>
+</ul>
