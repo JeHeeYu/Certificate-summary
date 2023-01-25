@@ -516,7 +516,34 @@ SAN은 <b>DAS의 빠른 처리와 NAS의 파일 공유 장점을 혼합한 방�
 
 ---
 
-## SQL(Structured Query Language) 분류
+## 연산자와 연산자 우선순위
+
+### 조건 연산자
+* 비교 연산자
+  * '=' : 같다
+  * '<>' : 같지 않다
+  * '>' : 크다
+  * '<' : 작다
+  * '>=' : 크거나 같다
+  * '<=' : 작거나 같다;
+* 논리 연산자 : NOT, AND, OR
+* LIKE 연산자 : 대표 문자를 이용해 지적된 속성의 값이 문자 패턴과 일치하는지 튜플을 검색하기 위해 사용
+  * '%' : 모든 문자를 대표함
+  * '_' : 문자 하나를 대표함
+  * '#' : 숫자 하나를 대표함
+
+### 연산자 우선순위
+* 산술 연산자 : 'X', '/', '+', '-' 
+  * 왼쪽에서 오른쪽으로 갈수록 낮아짐
+* 관계 연산자 : '=', '<>', '>', >=, <, <=
+  * 모두 같음
+* 논리 연산자 : NOT, AND, OR
+  * 왼쪽에서 오른쪽으로 갈수록 낮아미
+* 산술, 관계, 논리 연산자 동시 사용 시 산술 > 관계 > 논리 순서로 우선순위가 정해짐
+
+---
+
+## SQL(Structured Query Language) 분류 및 문법
 
 ### DDL(Data Define Language) = 데이터 정의어
 DDL은 <b>SCHEMA, DOMAIN, TABLE, VIEW, INDEX를 정의하거나 변경 또는 삭제할 때 사용하는 언어</b>를 말한다.
@@ -612,12 +639,349 @@ DML은 <b>데이터베이스 사용자가 응용 프로그램이나 질의어를
 * 데이터베이스 사용자와 데이터베이스 관리 시스템 간의 인터페이스 제공
 
 #### DML의 네 가지 유형
-* SELECT : 테이블에서 조건에 맞는 튜플 검색
-* INSERT : 테이블에 새로운 튜플 삽입
-* DELETE : 테이블에서 조건에 맞는 튜플 삭제
-* UPDATE : 테이블에서 조건에 맞는 튜플의 내용 변경
+* SELECT(검색) : 테이블에서 조건에 맞는 튜플 검색
+  * SELECT~ FROM~ WHERE~
+* INSERT(삽입) : 테이블에 새로운 튜플 삽입
+  * INSERT INTO~ VALUES~
+* DELETE(삭제) : 테이블에서 조건에 맞는 튜플 삭제
+  * DELETE~ FROM~ WHERE~
+* UPDATE(변경, 갱신) : 테이블에서 조건에 맞는 튜플의 내용 변경
+  * UPDATE~ SET~ WHERE
+
+### 검색문(SELECT~)
+검색문은 <b>테이블에서 튜플을 검색할 때 사용</b>한다.
+```
+SELECT  [PREDICATE] [테이블명.]속성명 [AS 별칭][, [테이블명.]속성명, ...]
+[, 그룹함수(속성명) [AS 별칭]]
+[, Window함수 OVER (PARTITION BY 속성명1, 속성명2, ...ORDER BY 속성명3, 속성명4, ...)]
+FROM테이블명[, 테이블명, ...]
+[WHERE조건]
+[GROUP BY 속성명, 속성명, ...]
+[HAVING 조건]
+[ORDER BY속성명 [ASC | DESC]];
+```
+
+* SELECT절
+  * PREDICATE : 불러올 튜플 수를 제한할 명령어 기술
+    * ALL : 모든 튜플 검색 시 지정하는 것으로 주로 생략
+    * DISTINCT : 중복된 튜플이 있을 경우 그 중 첫 번째 한 개만 검색
+    * DISTINCTROW : 중복된 튜플을 제거하고 한 개만 검색하지만 선택된 속성의 값이 아닌 튜플 전체를 대상으로 함
+  * 속성명 : 검색하여 불러올 속성(열) 또는 속성을 이용한 수식을 지정
+    * 기본 테이블을 구성하는 모든 속성 지정 시 '*'를 기술
+    * 두 개 이상의 테이블을 대상으로 검색할 때는 '테이블명.속성명'으로 표현
+  * AS : 속성 및 연산의 이름을 다른 제목으로 표시하기 위해 사용
+* FROM절 : 질의에 의해 검색될 데이터들을 포함하는 데 테이블명을 기술함
+* WHERE절 : 검색할 조건을 기술함
+* ORDER BY절 : 특정 속성을 기준으로 정렬하여 검색할 때 사용함
+  * 속성명 : 정렬의 기준이 되는 속성명을 기술함
+  * [ASC | DESC] : 정렬 방식으로, 'ASC'는 오름차순, 'DESC'는 내림차순. 생략 시 오름차순 지정
+
+### Example
+
+![image](https://user-images.githubusercontent.com/87363461/214558070-e89afce8-a5ee-4f6f-adb8-15ad4f433da5.png)
+
+<br>
+
+Ex 1) <사원> 테이블에서 '주소'만 검색하되 같은 '주소'는 한 번만 출력하시오.
+```
+SELECT DISTINCT 주소
+FROM 사원;
+```
+
+#### 결과
+
+![image](https://user-images.githubusercontent.com/87363461/214558282-f15fb72f-5f53-4561-89d9-6853e431676f.png)
+
+<br>
+
+Ex 2) <사원> 테이블에서 '기획' 부서에 근무하면서 '대흥동'에 사는 사람의 튜플을 검색하시오.
+```
+SELECT *
+FROM 사원
+WHERE 부서 = '기획' AND 주소 = '대흥동';
+```
+
+#### 결과
+
+![image](https://user-images.githubusercontent.com/87363461/214558428-adba0633-e590-4610-a104-36fca251ae6f.png)
+
+<br>
+
+Ex 3) <사원> 테이블에서 성이 '김'인 사람의 튜플을 검색하시오.
+```
+SELECT *
+FROM 사원
+WHERE 이름 LIKE "김%";
+```
+
+#### 결과
+
+![image](https://user-images.githubusercontent.com/87363461/214560176-6a1148e8-4d42-4385-86e2-192854751a68.png)
+
+<br>
+
+Ex 4) '취미'가 '나이트댄스'인 사원의 이름과 '주소'를 검색하시오
+```
+SELECT * 
+FROM 사원
+WHERE 이름 = (SELECT 이름 FROM 여가활동 WHERE 취미 = '나이트댄스');
+```
+
+#### 결과
+
+![image](https://user-images.githubusercontent.com/87363461/214560519-b78911db-a11a-421b-8823-8b856a27a678.png)
+
+<br>
+
+Ex 5) 취미활동을 하는 사람들의 부서를 검색하시오.
+```
+SELECT 부서
+FROM 사원
+WHERE EXISTS (SELECT 이름 FROM 여가활동 WHERE 여가활동.이름 = 사원.이름);
+```
+
+#### 결과
+
+![image](https://user-images.githubusercontent.com/87363461/214560621-94cc7dd4-1bcf-4310-b836-bdf4e5499111.png)
 
 
+### 그룹함수를 이용한 SELECT문
+
+### 그룹 함수 
+그룹 함수는 GROUP BY절에 지정된 그룹별로 속성의 값을 집계할 때 사용됨
+* COUNT(속성명) : 그룹별 튜플 수를 구하는 함수
+* SUM(속성명) : 그룹별 합계를 구하는 함수
+* AVG(속성명) : 그룹별 평균을 구하는 함수
+* MAX(속성명) : 그룹별 최대값을 구하는 함수
+* MIN(속성명) : 그룹별 최소값을 구하는 함수
+* STDDEV(속성명) : 그룹별 표준편차를 구하는 함수
+* VARIANCE(속성명) : 그룹별 분산을 구하는 함수
+
+```
+SELECT  [PREDICATE] [테이블명.]속성명 [AS 별칭][, [테이블명.]속성명, ...]
+[, 그룹함수(속성명) [AS 별칭]]
+[, WINDOW함수 OVER (PARTITION BY 속성명1, 속성명2, ...ORDER BY 속성명3, 속성명4, ...) [AS 별칭] ]
+FROM 테이블명[, 테이블명, ...]
+[WHERE 조건]
+[GROUP BY속성명, 속성명, ...]
+[HAVING조건]
+[ORDER BY 속성명 [ASC | DESC]]
+```
+* 그룹함수 : GROUP BY절에 지정된 그룹별로 속성의 값을 집계할 함수를 기술
+* WINDOW 함수 : GROUP BY절을 이용하지 않고 속성의 값을 집계할 함수를 기술함
+  * PARTITION BY : WINDOW 함수가 적용될 범위로 사용할 속성을 지정함
+  * ORDER BY : PARTITION 안에서 정렬 기준으로 사용할 속성을 지정함
+* GROUP BY절 : 특정 속성을 기준으로 그룹화하여 검색 할 때 사용
+  * 일반적으로 GROUP BY절은 그룹 함수와 함께 사용됨
+* HAVING 절 : GROUP BY와 함께 사용되며, 그룹에 대한 조건 지정
+
+### Example
+
+![image](https://user-images.githubusercontent.com/87363461/214561461-c1a6af57-11ab-4bcd-a6c4-2468cc98d0e2.png)
+
+<br>
+
+Ex 1) <상여금> 테이블에서 '상여금'이 100 이상인 사원이 2명 이상인 '부서'의 튜플 수를 구하시오.
+```
+SELECT 부서, COUNT(*) AS 사원수
+FROM 상여금
+WHERE 상여금 >= 100
+GROUP BY 부서
+HAVING COUNT(*) >= 2;
+```
+
+#### 결과
+
+![image](https://user-images.githubusercontent.com/87363461/214561942-ed9e5e0e-e09d-4552-abda-261f8620fa29.png)
+
+
+### 집합 연산자
+집합 연산자를 이용하면 2개 이상의 테이블의 데이터를 하나로 통합할 수 있다.
+```
+// 표기 형식
+SELECT 속성명1, 속성명2 ...
+FROM 테이블명
+UNION | UNION ALL | INTERSECT | EXCEPT
+SELECT 속성명1, 속성명2 ...
+FROM 테이블명
+[ORDER BY 속성명 [ASC | DESC]];
+```
+* 두 개의 SELECT 문에 기술한 속성들은 개수와 데이터 유형이 서로 동일해야 함
+
+#### 집합 연산자의 종류
+* UNION
+  * 두 SELECT문의 조회 결과를 통합하여 모두 출력
+  * 중복된 행은 한 번만 출력
+* UNION ALL
+  * 두 SELECT문의 조회 결과를 통합하여 모두 출력
+  * 중복된 행도 그대로 출력
+* INTERSECT
+  * 두 SELECT문의 조회 결과 중 공통된 행만 출력
+* EXCEPT
+  * 첫 번째 SELECT문의 조회 결과에서 두 번째 SELECT문의 조회 결과를 제외한 행을 출력
+
+
+### Example
+
+![image](https://user-images.githubusercontent.com/87363461/214562537-0186d3c8-6d3e-4b29-8b12-521ed66ef48e.png)
+
+<br>
+
+Ex 1) <사원> 테이블과 <직원> 테이블을 통합하는 질의문을 작성하시오. (단, 같은 레코드가 중복되어 나오지 않게 하시오.)
+```
+SELECT *
+FROM 사원
+UNION
+SELECT *
+FROM 직원;
+```
+
+#### 결과
+
+
+![image](https://user-images.githubusercontent.com/87363461/214562735-065c63e9-e083-463e-af3e-8297e03e0f66.png)
+
+<br>
+
+Ex 2) <사원> 테이블과 <직원> 테이블에 공통으로 존재하는 레코드만 통합하는 질의문을 작성하시오.
+```
+SELECT *
+FROM 사원
+INTERSECT
+SELECT *
+FROM 직원;
+```
+
+#### 결과
+
+![image](https://user-images.githubusercontent.com/87363461/214562871-243c9f68-ea58-4f6d-803f-0d8dc0b173cb.png)
+
+
+### INNER JOIN
+INNER JOIN은 일반적으로 EQUI JOIN과 NON-EQUI JOIN으로 구분됨
+* 조건이 없는 INNER JOIN을 수행하면 CROSS JOIN과 동일한 결과를 얻을 수 있음
+* EQUI JOIN
+  * JOIN 대상 테이블에서 공통 속성을 기준으로 비교해 같은 값을 가지는 행을 연결하여 결과를 생성하는 JOIN 방법
+
+#### JOIN 표기 방식
+```
+// WHERE절을 이용한 EQUI JOIN 표기 형식
+SELECT [테이블명1.]속성명, [테이블명2.]속성명, ...
+FROM테이블명1, 테이블명2, ...
+WHERE테이블명1.속성명 = 테이블명2.속성명
+
+// NATURAL JOIN절을 이용한 EQUI JOIN 표기 형식
+SELECT [테이블명1.]속성명, [테이블명2.]속성명, ...
+FROM테이블명1 NATURAL JOIN테이블명2;
+
+// JOIN ~ USING절을 이용한 EQUI JOIN의 표기 형식
+SELECT [테이블명1.]속성명, [테이블명2.]속성명, ...
+FROM테이블명1 JOIN테이블명2 USING(속성명);
+```
+
+
+### Example
+
+![image](https://user-images.githubusercontent.com/87363461/214563581-fa19fab4-e8ef-4c8f-963c-de6fc3e2b0bd.png)
+
+Ex 1) <학생> 테이블과 <학과> 테이블에서 '학과코드'값이 같은 튜플을 JOIN하여 '학번', '이름', '학과코드', '학과명'을 출력하는 SQL문을 작성하시오.
+```
+SELECT 학번, 이름, 학생.학과코드, 학과명
+FROM 학생, 학과
+WHERE 학번, 이름, 학생.학과코드;
+
+SELECT 학번, 이름, 학생.학과코드, 학과명
+FROM 학생 NATURAL JOIN 학과;
+
+SELECT 학번, 이름, 학생.학과코드, 학과명
+FROM 학생 JOIN 학과 USING(학과코드);
+```
+
+#### 결과
+
+![image](https://user-images.githubusercontent.com/87363461/214563994-274df842-4a9e-4e1f-8c8f-b93b2018bfce.png)
+
+
+### 삽입문(INSERT INTO~)
+삽입문은 <b>기본 테이블에 새로운 튜플을 삽입할 때 사용</b>한다.
+```
+// 일반 형식
+INSERT INTO 테이블명[(속성명1, 속성명2 ...])
+VALUES(데이터1, 데이터2, ...);
+```
+* 대응하는 속성과 데이터는 개수와 데이터 윻여이 일치 해야 함
+* 기본 테이블의 모든 속성 사용 시 속성명 생략 가능
+* SELECT문을 사용하여 다른 테이블의 검색 결과 삽입 가능
+
+### Example
+
+![image](https://user-images.githubusercontent.com/87363461/214555527-83bf69eb-0820-4961-9423-10633640b1b9.png)
+
+<br>
+
+Ex 1) <사원> 테이블에 (이름 - 홍승현, 부서 - 인터넷)을 삽입하시오.
+```
+INSERT INTO 사원(이름, 부서) VALUES ('홍승현', '인터넷');
+```
+
+Ex 2) <사원> 테이블에 (장보고, 기획, 05/03/73/, 홍제동, 90)을 삽입하시오.
+```
+INSERT INTO 사원 VALUES ('장보고', '기획', #05/03/73#, '홍제동', 90);
+```
+
+Ex 3) <사원> 테이블에 있는 편집부의 모든 튜플을 편집부원(이름, 생일, 주소, 기본급) 테이블에 삽입하시오.
+```
+INSERT INTO 편집부원(이름, 생일, 주소, 기본급)
+SELECT 이름, 생일, 주소, 기본급
+FROM 사원
+WHERE 부서 = '편집';
+```
+
+### 삭제문(DELETE FROM~)
+삭제문은 <b>기본 테이블에 있는 튜플들 중 특정 튜플(행)을 삭제</b>할 때 사용한다.
+```
+// 일반 형식
+DELETE
+FROM 테이블명
+[WHERE 조건];
+```
+* 모든 레코드 삭제 시 WHERE절 생략
+* 모든 레코드를 삭제하더라도 구조는 남아있기 때문에 디스크에서 테이블을 완전히 제거하는 DROP과 다름
+
+### Example
+
+![image](https://user-images.githubusercontent.com/87363461/214555527-83bf69eb-0820-4961-9423-10633640b1b9.png)
+
+<br>
+
+Ex 1) <사원> 테이블에서 '임꺽정'에 대한 튜플을 삭제하시오.
+```
+DELETE
+FROM 사원
+WHERE 이름 = '임꺽정';
+```
+
+### 갱신문(UPDATE~ SET~)
+갱신문은 <b>기본 테이블에 있는 튜플들 중 특정 튜플의 내용을 변경할 때</b> 사용한다.
+```
+// 일반 형식
+UPDATE 테이블명
+SET 속성명 = 데이터[, 속성명=데이터, ...]
+[WHERE 조건];
+```
+
+### Example
+
+![image](https://user-images.githubusercontent.com/87363461/214555527-83bf69eb-0820-4961-9423-10633640b1b9.png)
+
+<br>
+
+Ex 1) <사원> 테이블에서 '황진이'의 '부서'를 '기획부'로 변경하고 '기본급'을 5만 원 인상시키시오.
+```
+UPDATE 사원
+SET 부서= '기획', 기본급 = 기본급 + 5
+WHERE 이름 = '황진이';
+```
 
 ---
 
@@ -630,6 +994,14 @@ DCL은 데이터의 보안, 무결성, 회복, 병행 수행 제어 등을 정�
 * ROLBLACK : 데이터베이스 조작 시 작업이 비정상적으로 종료되었을 경우 원래의 상태로 복구
 * GRANT : 데이터베이스 사용자에게 사용 권한 부여
 * REVOKE : 데이터베이스 사용자의 사용 권한 취소
+
+### COMMIT
+COMMIT은 <b>변경된 내용을 데이터베이스에 반영하는 명령어</b>이다.
+* COMMIT 명령을 실행하지 않아도 DML 문이 성공적으로 완료되면 자동 COMMIT or 실패 시 자동 ROLLBACK이 되도록 Auto Commit 기능 설정 가능
+
+### ROLLBACK
+ROLLBACK은 아직 Commit 되지 않은 변경된 모든 내용을 취소하고 데이터베이스를 이전 상태로 되돌리는 명령어이다.
+* 트랜잭션 전체가 성공적으로 끝나지 못하면 비일관성인 상태를 가질 수 있기 때문에 일부분만 완료된 트랜잭션은 롤백되어야 함
 
 
 ### GRANT/REVOKE
