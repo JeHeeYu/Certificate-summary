@@ -441,9 +441,228 @@ CRUD른 생성, 읽기, 갱신, 삭제의 앞 글자만 만든 용어
 
 ## 접근 통제 기술
 
-### 임의 접근 통제(DAC, Discretionary Access Control)
+### 임의 접근통제(DAC, Discretionary Access Control)
 임의 접근통제는 데이터에 접근하는 사용자의 신원에 따라 접근 권한을 부여하는 방식을 말한다.
 * 데이터 소유자가 접근통제 권한을 지정 및 제어
 * 객체를 생성한 사용자가 생성된 객체에 대한 모든 권한을 부여받음
 * 부여된 권한을 다른 사용자에게 허가할 수 있음
 * 임의 접근통제에 사용되는 SQL문으로 GRANT와 REVOKE가 있음
+
+### 강제 접근통제(MAC, Mandatory Accesss Control)
+강제 접근통제는 주체와 객체의 등급을 비교하여 접근 권한을 부여하는 방식을 말한다.
+* 시스템이 접근통제 권한을 지정
+* 데이터베이스 객체별로 보안 등급 부여 가능
+* 사용자별 인가 등급 부여 가능
+* 자신보다 보안 등급이 높은 객체에 대행 읽기, 쓰기, 수정, 등록 모두 불가능
+* 자신보다 보안 등급이 같은 객체에 대해서 읽기, 수정, 등록 가능
+* 자신보다 보안 등급인 낮은 객체는 읽기 가능
+
+### 강제 접근통제의 보안 모델
+
+#### 벨 라파듈라 모델(Bell-LaPadula Model)
+* 군대의 보안 라벨처럼 정보의 기밀성에 따라 상하 관계가 구분된 정보를 보호하기 위해 사용
+* 보안 취급자의 등급을 기준으로 읽기 권한 및 쓰기 권한 제한
+* 자신의 보안 레벨 이상의 문서를 작성 가능 및 자신의 보안 레벨 이하의 문서 읽기 가능
+
+#### 비바 무경설 모뎅(Biba Intergrity Model)
+* 벨 라파듈라 모델을 보완한 수학적 모델로, 무결성을 보장하는 최초의 모델
+* 비인가자에 의한 데이터 변형 방지
+
+#### 클락-윌슨 무결성 모델(Clark-Wilson Intergrity Model)
+* 무결성 중심의 상업용 모델
+* 사용자가 직접 객체에 접근 불가능
+* 프로그램에 의해 접근이 가능한 보안 모델
+
+#### 만리장성 모델(Chinese Wall Model)
+* 서로 이해 충돌 관계에 있는 객체 간의 정보 접근을 통제하는 모델
+
+### 역할기반 접근통제(RBAC, Role Based Access Control)
+역할기반 접근통제는 사용자의 역할에 따라 접근권한을 부여하는 방식을 말한다.
+* 중앙관리자가 접근 통제 권한 지정
+* 임의 접근통제와 강제 접근통제의 단점을 보완하여 다중 프로그래밍 환경에 최적화된 방식
+* 중앙관리자가 역할마다 권한 부여 시 사용자들은 역할에 해당하는 권한 사용 가능
+
+---
+
+## Storage
+
+### DAS(Direct Attached Storage)
+DAS는 <b>서버와 저장장치를 전용 케이블로 직접 연결하는 방식</b>
+* 일반 가정에서 컴퓨터에 외장하드를 연결하는 방식이 DAS 방식
+* 서버에 저장장치를 관리함
+* 저장장치를 직접 연결하므로 속도가 빠르고 설치 및 운영이 쉬움
+* 초기 구축 비용 및 유지보수 비용 저렴
+* 직접 연결 방식이므로 다른 서버에서 접근할 수 없으며 파일을 공유할 수 없음
+* 확장성 및 유연성이 상대적으로 떨어짐
+* 저장 데이터가 적고 공유가 필요 없는 환경에 적합
+
+### NAS(Network Attached Storage)
+NAS는 <b>서버와 저장장치를 네트워크를 통해 연결하는 방식</b>
+* 별도의 파일 관리 기능이 있는 NAS Storage가 내장된 저장장치를 직접 관리
+* Ehernet 스위치를 통해 다른 서버에서도 Storage에 접근 가능하여 파일 공유 가능
+* 장소에 구애받지 않고 저장장치에 쉽게 접근 가능
+* DAS에 비해 확장성 및 유연성 우수
+* 접속 증가 시 성능 저하될 수 있음
+
+### SAN(Storage Area Network)
+SAN은 <b>DAS의 빠른 처리와 NAS의 파일 공유 장점을 혼합한 방식</b>
+* 서버와 저장장치를 연결하는 전용 네트워크를 별도 구성하는 방식
+* 광 채널(FC) 스위치를 이용하여 네트워크 구성
+* 광 채널 스위치는 서버나 저장장치를 광케이블로 연결하여 처리 속도가 빠름
+* 저장장치를 공유함으로써 여러 개의 저장장치나 백업 장비를 단일화 시킬 수 있음
+* 확장성, 유연성, 가용성이 뛰어남
+* 높은 트랜잭션 처리에 효과적이나 기존 시스템의 경우 장비의 업그레이드 필요
+* 초기 설치 시 별도의 네트워크 구축이 필요하여 비용이 많이 발생
+
+---
+
+## SQL(Structured Query Language) 분류
+
+### DDL(Data Define Language) = 데이터 정의어
+DDL은 <b>SCHEMA, DOMAIN, TABLE, VIEW, INDEX를 정의하거나 변경 또는 삭제할 때 사용하는 언어</b>를 말한다.
+* 논리적 데이터 구조와 물리적 데이터 구조의 사상을 정의
+* 데이터베이스 관리자나 데이터베이스 설계자가 사용
+
+#### DDL의 3가지 유형
+* CREATE : SCHEMA, DOMAIN, TABLE, VIEW, INDEX를 정의함
+* ALTER : TABLE에 대한 정의를 변경하는 데 사용
+* DROP : SCHEMA, DOMAIN, TABLE, VIEW, INDEX를 삭제함
+
+### CREATE TABLE
+<b>CREATE TABLE은 테이블을 정의하는 명령어</b>이다.
+```
+// 표기 형식
+CREATE TABLE 테이블명
+       (속성명 데이터_타입 [DEFAULT 기본값] [NOT NULL], ...
+       [, PRIMARY KEY(기본키_속성명, ...)]
+       [, UNIQUE(대체키_속성명, ...)]
+       [, FOREIGN KEY(외래키_속성명, ...)]
+             [REFERENCES 참조테이블(기본키_속성명, ...)] 
+             [ON DELETE 옵션]
+             [ON UPDATE 옵션]
+             [, CONSTRAINT 제약조건명]
+             [CHECK (조건식)]);
+```
+* 기본 테이블에 포함될 모든 속성에 대하여 속성명과 그 속성의 데이터 타입, 기본값, NOT NULL 여부 지정
+* PRIMARY KEY : 기본키로 사용할 속성 또는 속성의 집합을 지정함
+* UNIQUE : 대체키로 사용할 속성 또는 속성의 집합을 지정하는 것
+  * UNIQUE로 지정한 속성은 중복된 값을 가질 수 없음
+* FOREIGN KEY ~ REFERENCES ~
+  * 참조할 다른 테이블과 그 테이블을 참조할 때 사용할 외래키 속성 지정
+  * 외래키가 지정되면 참조 무결성의 CASCADE 법칙 적용
+  * ON DELETE 옵션
+    * 참조 테이블의 참조 속성 값이 변경되었을 때 기본 테이블에 취해야 할 사항을 지정함
+    * 옵션 : NO ACTION, CASCADE, SET NULL, SET DEFAULT 중 지정
+  * ON UPDATE 옵션
+    * 참조 테이블의 참조 속성 값이 변경되었을 때 기본 테이블에 취해야 할 사항을 지정함
+    * 옵션 : NO ACTION, CASCADE, SET NULL, SET DEFAULT 중 지정
+* CONSTRAINT : 제약 조건 이름 지정
+  * 이름을 지정할 필요가 없는 경우 CHECK절만 사용하여 속성 값에 대한 제약 조건 명시
+* CHECK : 속성 값에 대한 제약 조건 정의
+
+
+### ALTER TABLE
+<b>ALTER TABLE은 테이블에 대한 정의를 변경하는 명령문</b>이다.
+
+```
+// 표기 형식
+ALTER TABLE테이블명ADD속성명데이터_타입[DEFAULT ‘기본값’];
+ALTER TABLE테이블명ALTER속성명 [SET DEFAULT ‘기본값’];
+ALTER TABLE테이블명DROP COLUMN속성명 [CASCADE];
+```
+
+* ADD : 새로운 속성(열)을 추가할 때 사용
+* ALTER : 특정 속성의 Default 값을 변경할 때 사용
+* DROP COLUMN : 특정 속성을 삭제할 때 사용
+
+Ex 1) <학생> 테이블이 최대 3문자로 구성되는 '학년' 속성을 추가하시오.
+```
+ALTER TABLE 학생 ADD 학년 VARCHAR(3);
+```
+
+Ex 2) <학생> 테이블의 '학번' 필드의 데이터 타입과 크기를 'VARCHAR(10)으로 하고 NULL 값이 입력되지 않도록 변경하시오.
+```
+ALTER TABLE 학생 ALTER 학번 VARCHAR(10) NOT NULL;
+```
+
+### DROP
+<b>DROP은 스키마, 도에민, 기본 테이블, 뷰 테이블, 인덱스, 제약 조건 등을 제거하는 명령문</b>이다.
+```
+// 표기 형식
+DROP SCHEMA 스키마명 [CASCADE | RESTRICT];
+DROP DOMAIN 도메인명 [CASCADE | RESTRICT];
+DROP TABLE 테이블명 [CASCADE | RESTRICT];
+DROP VIEW 뷰명 [CASCADE | RESTRICT];
+DROP INDEX 인덱스명 [CASCADE | RESTRICT];
+DROP CONSTRAINT 제약조건명;
+```
+* CASCADE : 제거할 요소를 참조하는 다른 모든 객체 제거
+  * 테이블의 데이터 제거 시 각 외래키와 관계를 맺고 있는 모든 데이터를 제거하는 참조 무결성 제약 조건을 설정하기 위해 사용
+* RESTRICT : 다른 객체가 제거할 요소를 참조중일 때는 제거를 취소함
+
+Ex 1) <학생> 테이블을 제거하되, <학생> 테이블을 참조하는 모든 데이터를 함께 제거하시오.
+```
+DROP TABLE 학생 CASCADE;
+```
+
+---
+
+### DML(Data Mainpulation Language) = 데이터 조작어
+DML은 <b>데이터베이스 사용자가 응용 프로그램이나 질의어를 통하여 저장된 데이터를 실질적으로 처리하는 데 사용되는 언어</b>를 말한다.
+* 데이터베이스 사용자와 데이터베이스 관리 시스템 간의 인터페이스 제공
+
+#### DML의 네 가지 유형
+* SELECT : 테이블에서 조건에 맞는 튜플 검색
+* INSERT : 테이블에 새로운 튜플 삽입
+* DELETE : 테이블에서 조건에 맞는 튜플 삭제
+* UPDATE : 테이블에서 조건에 맞는 튜플의 내용 변경
+
+
+
+---
+
+### DCL(Data Control Language) = 데이터 제어어
+DCL은 데이터의 보안, 무결성, 회복, 병행 수행 제어 등을 정의하는데 사용되는 언어를 말한다.
+* 데이터베이스 관리자가 데이터 관리를 목적으로 사용
+
+#### DCL의 종류
+* COMMIT : 수행된 결과를 물리적 저장공간에 저장, 이후 작업 완료 시 관리자에게 알려줌
+* ROLBLACK : 데이터베이스 조작 시 작업이 비정상적으로 종료되었을 경우 원래의 상태로 복구
+* GRANT : 데이터베이스 사용자에게 사용 권한 부여
+* REVOKE : 데이터베이스 사용자의 사용 권한 취소
+
+
+### GRANT/REVOKE
+GRANT/REVOKE는 <b>데이터베이스 관리자가 데이터베이스 사용자에게 권한을 부여하거나 취소하는 명령어</b>이다.
+* GRANT : 권한 부여를 위한 명령어
+* REVOKE : 권한 취소 명령어
+* 사용자등급 지정 및 해제 방법
+  * GRANT 사용자등급 TO 사용자_ID_리스트 [IDENTIFED BY 암호];
+  * REVOKE 사용자등급 FROM 사용자_ID_리스트;
+* 테이블 및 속성에 대한 권한 부여 및 취소
+  * GRANT 권한_리스트 ON 개체 TO 사용자 [WITH GRANT OPTION];
+  * REVOKE [GRANT OPTION FOR] 권한_리스트 ON 개체 FROM 사용자 [CASCADE];
+    * 권한 종류 : ALL, SELECT, INSERT, DELETE, UPDATE, ALTER 등
+    * WITH GRANT OPTION : 부여받은 권한을 다른 사용자에게 다시 부여할 수 있는 권한을 부여
+    * GRANT OPTION FOR : 다른 사용자에게 권한을 부여할 수 있는 권한을 취소
+    * CASCADE : 권한 취소 시 권한을 부여받았던 사용자가 다른 사용자에게 부여한 권한도 연쇄적으로 취소
+
+Ex 1) 사용자 ID가 "NABI"인 사람에게 데이터베이스 및 테이블을 생성할 수 있는 권한을 부여하는 SQL문을 작성하시오.
+```
+GRANT RESOURCE TO NABI;
+```
+
+Ex 2) 사용자 ID가 "STAR"인 사람에게 단순히 데이터베이스에 있는 정보를 검색할 수 있는 권한을 부여하는 SQL문을 작성하시오.
+```
+GRANT CONNECT TO STAR;
+```
+
+Ex 3) 사용자 ID가 "NABI"인 사람에게 <고객> 테이블에 대한 모든 권한과 다른 사람에게 권한을 부여할 수 있는 권한까지 부여하는 SQL문을 작성하시오.
+```
+GRANT ALL ON 고객 TO NABI WITH GRANT OPTION;
+```
+
+Ex 4) 사용자 ID가 "STAR"인 사람에게 부여한 <고객> 테이블에 대한 권한 중 UPDATE 권한을 다른 사람에게 부여할 수 있는 권한만 취소하는 SQL문을 작성하시오.
+```
+REVOKE GRANT OPTION FOR UPDATE ON 고객 FROM STAR;
+```
