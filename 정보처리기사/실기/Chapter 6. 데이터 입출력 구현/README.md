@@ -148,8 +148,9 @@
 - 두 개체(Entity) 간의 관계 정의
 - 피터 챈 모델(Peter Chen Model)에서는 관계는 마름모(◇)로 표시함
 - 까마귀발 모델(Crow's Foot Model)에서는 속성을 다음 표와 같이 표시함
+
 |관계 표시|의미|
-|:---:|:---||
+|:---:|:---|
 |![image](https://user-images.githubusercontent.com/87363461/231913542-ef3241a0-c040-4567-9f1b-b1aa7c3382bf.png)|1:1 관계를 표시|
 |![image](https://user-images.githubusercontent.com/87363461/231913559-63934e5a-72fc-4139-8abc-1aedff23867e.png)|1:n 관계를 표시|
 |![image](https://user-images.githubusercontent.com/87363461/231913571-98f2a248-c64d-4006-9d7a-2c7353175260.png)|n:m 관계를 표시|
