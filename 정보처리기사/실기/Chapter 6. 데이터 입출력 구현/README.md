@@ -317,3 +317,77 @@
 - <b>관계</b>
   - <b>중복관계 추가</b>
     - 데이터를 처리하기 위한 여러 경로를 거쳐 조인이 가능하지만, 이때 발생할 수 있는 성능 저하를 예방하기 위해 추가적 관계를 
+
+<br>
+
+---
+
+<br>
+
+# 데이터베이스 종류(:star::star::star:)
+
+## 1. 데이터베이스(Database)
+
+### 1-1. 데이터베이스 개념
+- 데이터베이스는 <b>다수의 인원, 시스템 또는 프로그램이 사용할 목적으로 통합하여 관리되는 데이터의 집합</b>을 말함
+- 데이터에 대한 효과적인 관리를 위해 자료의 중복성 제거, 무결성 확보, 일관성 유지, 유용성 보장이 중요함
+- 데이터베이스는 통합된 데이터, 저장된 데이터, 운영 데이터, 공용 데이터임
+
+#### 데이터베이스 정의
+|정의|설명|
+|:---:|:---|
+|<b>통합된 데이터</b><br>(Intergrated Data)|자료의 중복을 배제한 데이터의 모임|
+|<b>저장된 데이터</b><br>(Stored Data)|저장 매체에 저장된 데이터|
+|<b>운영 데이터</b><br>(Operational Data)|조직의 업무를 수행하는 데 필요한 데이터|
+|<b>공용 데이터</b><br>(Shared Data)|여러 애플리케이션, 시스템들이 공동으로 사용하는 데이터|
+
+### 1-2. 데이터베이스 특성
+- 데이터베이스에 특성에는 <b>실시간 접근성, 계속적인 변화, 동시공용, 내용 참조</b>가 있음
+
+|특성|설명|
+|:---:|:---|
+|<b>실시간 접근성</b><br>(Real-Time<br>Accessibility)|쿼리에 대하여 실시간 응답이 가능해야 함|
+|<b>계속적인 변화</b><br>(Continuous<br>Evolution)|새로운 데이터의 삽입(Insert), 삭제(Delete), 갱신(Update)으로 항상 최신의 데이터를 유지함|
+|<b>동시 공용</b><br>(Concurrent Sharing)|다수의 사용자가 동시에 같은 내용의 데이터를 이용할 수 있어야 함|
+|<b>내용 참조</b><br>(Contnet Reference)|데이터베이스에 있는 데이터를 참조할 때 데이터의 레코드의 주소나 위치에 의해서가 아닌, 사용자가 요구하는 데이터 내용으로 데이터를 찾음|
+
+
+### 1-3. 데이터베이스 종류
+
+#### 1. 파일 시스템(File System) 개념
+- 파일에 이름을 부여하고 저장이나 검색을 위하여 논리적으로 그것들을 어디에 위치시켜야 하는지 등을 정의한 뒤 관리하는 데이터베이스 전 단계의 데이터 관리 방식
+
+#### 파일 시스템 종류
+
+|종류|설명|
+|:---:|:---|
+|<b>ISAM</b>|- Indexed Sequential Access Method<br>- 자료 내용은 주 저장부, 자료의 색인은 자료가 기록된 위치와 함께 색인부에 기록되는 시스템|
+|<b>VSAM</b>|- Virtual Storage Access Method<br>- 대형 운영체제에서 사용되는 파일 관리 시스템|
+
+#### 2. 관계형 데이터베이스 관리 시스템(RDBMS, Relational Database Managerment System)
+- 관계형 DBMS는 <b>관계형 모델을 기반</b>으로 하는 가장 보편화된 데이터베이스 관리 시스템
+- 데이터를 저장하는 테이블의 일부를 다른 테이블과 상하 관계로 표시하며 상관관계를 정리함
+- 변화하는 업무나 데이터 구조에 대한 유연성이 좋아 유지 관리가 용이함
+- 종류로 Oracle, SQL Server, MySQL, Maria DB 등이 있음
+
+![image](https://user-images.githubusercontent.com/87363461/231926284-9a761492-ef80-4619-8b96-64d45edb6d16.png)
+
+
+<br>
+
+#### 3. 계층형 데이터베이스 관리 시스템(HDBMS, Hierachical Database Management System)
+- 계층형 DBMS는 <b>데이터를 상하 종속적인 관계로 계층화</b>하여 관리하는 데이터베이스임
+- 데이터에 대한 접근 속도가 빠르지만, 종속적인 구조로 인하여 변화하는 데이터 구조에 유연하게 대응하기 어려움
+- 종류로 IMS(Information Management System), System2000 등이 있음
+
+![image](https://user-images.githubusercontent.com/87363461/231926442-295cdc49-d73f-4364-bd12-8b8e5267275b.png)
+
+
+<br>
+
+#### 4. 네트워크 데이터베이스 관리 시스템(NDBMS, Network Database Management System)
+- 네트워크 DBMS는 데이터의 구조를 <b>네트워크상의 망상 형태로 표현</b>한 데이터 모델
+- 트리 구조나 계층형 데이터베이스보다는 유연하지만 설계가 복잡한 단점이 있음
+- 종류로 IDS(Intergrated Data Store), IDMS(Intergrated Database Management System) 등이 있음
+
+![image](https://user-images.githubusercontent.com/87363461/231926671-b5a8e9df-2dd5-46e8-8b55-4e8ed79a4d59.png)
