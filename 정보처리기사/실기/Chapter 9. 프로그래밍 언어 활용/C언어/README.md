@@ -248,3 +248,7 @@ a + 3 : a의 3번 째 값 주소
 #### 4. srlen(String Length)
 - strlen은 문자열의 길이를 알려주는 함수
 - strlen(s) : s
+
+#### 5. strrev(String Reverse)
+- strrev는 문자열을 거꾸로 뒤집는 함수
+- strrev(str) : str내에 
