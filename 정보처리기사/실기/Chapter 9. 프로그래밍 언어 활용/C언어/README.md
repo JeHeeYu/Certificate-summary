@@ -252,3 +252,80 @@ a + 3 : a의 3번 째 값 주소
 #### 5. strrev(String Reverse)
 - strrev는 문자열을 거꾸로 뒤집는 함수
 - strrev(str) : str내에 
+
+#### 6. strchr
+- strchr은 문자열 내에 일치하는 문자가 있는지 검사하는 함수
+- strchr(str, c) : str 내에 c가 존재하는지 확인
+
+
+### 3-2. 수학 함수
+
+
+#### 1. sqrt
+- sqrt는 양의 제곱근을 계산하는 함수
+- sqrt(n) : n의 루트 값 계산
+
+#### 2. ceil
+- ceil은 소수점 올림 함수
+- ceil(n) : 소수점 올림
+
+#### 3. floor
+- floor은 소수점 내림 함수
+- floor(n) : 소수점 내림
+
+
+### 3-3. 유틸리티 함수
+
+#### 1. rand(Random)
+- rand는 임의의 값을 생성하는 함수
+
+- rand() : 임의의 정숫값 1개 생성
+
+#### 2. srand(Seed Random)
+- srand는 난수 생성 알고리즘에 사용하는 seed를 정해주는 함수
+- srand를 사용하면 rand 함수를 사용할 때 해당 seed 값에 해당하는 난수 패턴으로 생성
+- srnad(seed) : seed 값에 따라 난수 발생기를 초기화 함
+
+#### 3. time
+- time은 현재 시간을 가져오는 함수
+- 1970년 1월 1일 이후로 몇 초가 경과했는지 나타냄
+- time(NULL) : time 함수에 파라미터를 NULL로 하면 현재 시간을 리턴함
+
+
+#### 4. atoi(ASCII to Integer)
+- atoi는 문자열을 정수형으로 변환하는 함수
+atoi(str) : 문자열(str)을 정수(int)형으로 변환
+
+#### 5. atof(ASCII to Floating Point)
+- atof는 문자열을 실수형으로 변환하는 핫무
+- atof(str) : 문자열(str)을 실수형(float, double)으로 변환
+
+#### 6. itoa(Integer to ASCII)
+- itoa는 정수형을 문자열로 변환하는 함수
+- itoa(value, str, radix) : value를 변환하여 str에 radix 진수로 저장
+
+<br>
+
+---
+
+<br>
+
+# 포인터(:star::star::star:)
+
+## 1. 포인터(Pointer) 개념
+- 포인터는 변수의 주솟값을 저장하는 공간임
+
+![image](https://user-images.githubusercontent.com/87363461/232196811-de1321da-4863-4c78-bdb0-c1f2d774134d.png)
+
+
+<br>
+
+## 2. 포인터 선언
+
+```
+자료형* 포인터_변수명 = &변수명;
+```
+
+- 자료형 뒤에 *를 붙이면 주소를 저장하는 포인터 변수라는 의미이고, 일반 변수명에 &를 붙이면 해당 변수명의 주솟값임
+- int 형 변수를 가리키는 포인터 변수 선언 시 int*를, char형 변수를 가리키는 포인터 선언 시 char*와 같은 방식을 사용
+- 주소에 해당하는 값을 가리킬 때 * 사용
