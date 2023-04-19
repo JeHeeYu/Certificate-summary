@@ -370,3 +370,139 @@ ALTER TABLE 사원 DROP COULMN 생년월일;
 
 #### 3. DROP TABLE
 - DROP TABLE은 테이블을 삭제하는 명령어
+
+#### DROP TABLE 문법
+
+```
+DROP TABLE 테이블명 [CASECAE | RESTRICT];
+
+// 예제
+DROP TABLE 사원;
+
+- 사원 테이블 삭제
+```
+
+- DROP TABLE 명령어의 옵션에는 CASCADE와 RESTRICT가 있음
+- CASCADE와 RESTRICT의 경우 외래 키(FOREIGN KEY)가 걸려 있을 때 해당함
+
+#### DROP TABLE 명령어 옵션
+
+|옵션|설명|
+|:---:|:---|
+|<b>CASCADE</b>|참조하는 테이블까지 연쇄적으로 제거하는 옵션|
+|<b>RESTRICT</b>|다른 테이블이 삭제할 테이블을 참조 중이면 제거하지 않는 옵션|
+
+#### 4. TRUNCATE TABLE
+- TRUNCATE TABLE은 테이블 내의 데이터들을 삭제하는 명령어
+
+#### TRUNCATE TABLE 문법
+
+```
+TRUNCATE TABLE 테이블명;
+
+// 예제
+TRUNCATE TABLE 사원;
+
+- 사원 테이블 내의 모든 데이터 삭제
+```
+
+### 2-5. VIEW 관련 DDL
+
+#### 1. CREATE VIEW
+- CREATE VIEW는 뷰를 생성하는 명령어임
+
+#### CREATE VIEW 문법
+
+```
+CREATE VIEW 뷰이름 AS
+조회쿼리;
+
+// 예제
+CREATE VIEW 사원 AS
+SELECT 사번, 이름
+    FROM 사원
+WHERE 성별 = 'M';
+
+- 사원 테이블에서 성별 값이 'M'을 가진 사번, 이름으로 생성된 사원뷰라는 이름의 뷰 생성
+```
+
+- VIEW 테이블의 SELECT 문에는 UNION이나 ORDER BY절을 사용할 수 없음
+- 컬럼명을 기술하지 않으면 SELECT 문의 컬럼명이 자동으로 사용됨
+
+
+#### 2. CREATE OR REPLACE VIEW
+- CREATE OR REPLACE VIEW는 뷰를 교체하는 명령어임
+- OR REPLACE라는 키워드를 추가하는 것을 제외하고는 CREATE VIEW와 사용 방법이 동일함
+
+#### CREATE OR REPLACE VIEW 기본 문법
+
+```
+CREATE OR REPLACE VIEW 뷰이름 AS
+조회쿼리;
+```
+
+#### 3. DROP VIEW
+- DROP VIEW는 뷰를 삭제하는 명령어
+
+#### DROP VIEW 기본문법
+
+```
+DROP VIEW 뷰이름;
+```
+
+
+### 2-6. INDEX 관련 DDL
+
+#### 1. CREATE INDEX
+
+- CREATE INDEX는 인덱스를 생성하는 명령어
+- UNIQUE는 생략 가능, 인덱스 걸린 컬럼에 중복 값을 허용하지 않음
+- 복수 컬럼은 인덱스로 걸 수 있음
+
+
+#### CREATE INDEX 문법
+
+```
+CREATE [UNIQUE] INDEX 인덱스명 ON 테이블명(컬럼명1, 컬럼명2 ...);
+
+// 예제
+CREATE INDEX 사번인덱스 ON 사원(사번);
+
+- 사원 테이블의 사번 컬럼에 대해 사번인덱스라는 인덱스 명으로 인덱스 생성
+```
+
+
+#### 2. ALTER INDEX
+- ALTER INDEx는 인덱스를 수정하는 명령어
+- 일부 DBMS는 ALTER INDEX를 제공하지 않음
+- 기존 인덱스를 삭제하고 신규 인덱스를 생성하는 방식으로 사용 권고
+
+#### ALTER INDEX 문법
+
+```
+ALTER [UNIQUE] INDEX 인덱스명 ON 테이블명(컬럼명1, 컬럼명2 ...);
+
+// 예제
+ALTER INDEX 사번인덱스 ON 사원(시번);
+
+- 사원 테이블의 사번 컬럼에 대해 사번인덱스 라는 인덱스 명으로 인덱스 수정
+```
+
+#### 3. DROP INDEX
+- DROP INDEX는 인덱스를 삭제하는 명령어
+
+#### DROP INDEX 문법
+
+```
+DROP INDEX 인덱스명
+
+// 예제
+DROP INDEX 사번인덱스;
+
+- 사번인덱스 라는 인덱스 명을 가지고 있는 인덱스 삭제
+```
+
+## 3. 데이터 조작어(DML, Data Manipulation Language)
+
+### 3-1. 데이터 조작어 개념
+- 데이터 조작어는 데이터베이스에 저장된 자료들을 입력, 수정, 삭제, 조회하는 언어
