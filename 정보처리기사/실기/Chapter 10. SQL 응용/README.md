@@ -1235,7 +1235,7 @@ GROUP BY [컬럼 ...] ROLLUP (컬럼1, 컬럼2, ...)
 |기획부|부장|3,800|
 |기획부|차장|1,800|
 
-````
+```
 SELECT DEPT, JOB, SUM(SALARY)
     FROM DEPT_SALARY
 GROUP BY ROLLUP(DEPT, JOB);
